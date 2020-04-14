@@ -1,0 +1,24 @@
+
+ext{
+
+    //用于动态切换
+    //true： 集成模式
+    //false：组件模式
+    isModule = false
+
+    appId = [
+        "app"       :   "com.bryanrady.routeproject",
+        "module1"   :   "com.bryanrady.module1",
+        "module2"   :   "com.bryanrady.module2"
+    ]
+
+    android = [
+            compileSdkVersion   :   29,
+            buildToolsVersion   :   "29.0.2",
+            minSdkVersion       :   19,
+            targetSdkVersion    :   29,
+            versionCode         :   1,
+            versionName         :   "1.0",
+    ]
+
+}
