@@ -1,4 +1,8 @@
-apply plugin: 'com.android.application'
+if (isModule){
+    apply plugin: 'com.android.library'
+}else{
+    apply plugin: 'com.android.application'
+}
 
 //赋值与引用
 def config = rootProject.ext.android
@@ -7,42 +11,58 @@ def appId = rootProject.ext.appId
 android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
+
+
     defaultConfig {
-        applicationId appId["app"]
+        if (!isModule){
+            applicationId appId["module_goods"]
+        }
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
         versionCode config.versionCode
         versionName config.versionName
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
 
 //        javaCompileOptions {
 //            annotationProcessorOptions {
 //                arguments = [moduleName: project.getName()]
 //            }
 //        }
+
+        //添加一个boolean类型的字段到BuildConfig中，用来切换模式
+        buildConfigField("boolean", "IS_MODULE", String.valueOf(isModule))
+        buildConfigField("boolean", "IS_DEBUG", String.valueOf(isDebug))
+
+        //资源配置
+        sourceSets {
+            main {
+                if (!isModule) {
+                    manifest.srcFile 'src/main/module/AndroidManifest.xml'
+                    java.srcDirs 'src/main/module/java','src/main/java'
+                }else{
+                    manifest.srcFile 'src/main/AndroidManifest.xml'
+                    java.srcDirs 'src/main/java'
+                }
+            }
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
-    implementation project(':module_base')
-    if (isModule){
-        implementation project(':module_goods')
-        implementation project(':module_cart')
-        implementation project(':module_order')
-        implementation project(':module_cart')
-    }
-
 }

@@ -4,12 +4,15 @@ ext{
     //用于动态切换
     //true： 集成模式
     //false：组件模式
-    isModule = false
+    isModule = true
+    isDebug = true
 
     appId = [
-        "app"       :   "com.bryanrady.routeproject",
-        "module1"   :   "com.bryanrady.module1",
-        "module2"   :   "com.bryanrady.module2"
+        "app"           :   "com.bryanrady.routeproject",
+        "moudle_goods"  :   "com.bryanrady.moudle_goods",
+        "moudle_user"   :   "com.bryanrady.moudle_user",
+        "moudle_cart"   :   "com.bryanrady.moudle_cart",
+        "moudle_order"  :   "com.bryanrady.moudle_order",
     ]
 
     android = [
